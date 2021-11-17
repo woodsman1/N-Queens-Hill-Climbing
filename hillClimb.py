@@ -2,14 +2,23 @@ import random
 import utility
 
 def get_next_move(h, board, flag=False):
+  """
+  moving each queen up and down in their column
+  and calculating the h value for each move and then random move
+  from the list of all minimum moves and
+  return ture if we get the min move else false with
+  h value of min move and cordinates of that move 
+  """
 
   next_moves_h = {}
   n = len(board)
 
   for col in range(0, n):
     for row in range(n):
-      if board[col] == row: continue
+      if board[col] == row: continue # skipping the original state
 
+      ## for every possible move get_heuristic value and store that move
+      ## with value in the dictionary with its h value
       temp_board = board.copy()
       temp_board[col] = row
       next_moves_h[(col, row)] = utility.get_heuristic_cost(n, temp_board)
@@ -28,7 +37,7 @@ def get_next_move(h, board, flag=False):
       min_h_moves.append(cordinates)
 
 
-  ####### without sideways move (strict condition)
+  ####### without sideways move 
   if flag and min_h == h: return False, h, -1, -1  
 
 
@@ -42,33 +51,41 @@ def get_next_move(h, board, flag=False):
 
 
 def hillClimbing(n , board):
+  """
+  Implementation of hillClimbing algorithum
+  """
+  
   h = utility.get_heuristic_cost(n, board)
   print("h(Initial) =", h)
   new_h = 0
   cnt = 0
 
+  ## loop till the limit or till the goal state is achieved
   while(cnt < 20):
+    ## get optimal next moves 
     flag, new_h, col, row = get_next_move(h, board)
 
-    if(flag == False):
+
+    if(flag == False):    ## No optimal moves obtained
       utility.print_board(board)
       print("h(final) =", h)
       print("number of moves = ", cnt)
       print("Faliure : Reached local maximum")
       return board, h
-    elif new_h==0:
+    elif new_h==0:       ## Reached the goal state
       board[col] = row
       utility.print_board(board)
       print("h(final) =", new_h)
       print("number of moves = ", cnt)
       print("Success : Reached Goal Sate")
       return board, h
-    else:
+    else:               ## Optimal move in obtained
       board[col] = row
 
     h = new_h
 
     ### printing board after every move
+
     # print()
     # utility.print_board(board)
     # print("h =",new_h)
@@ -76,7 +93,7 @@ def hillClimbing(n , board):
 
     cnt+=1
   
-  
+  ## reached the limit of moves but goal state no achieved
   utility.print_board(board)
   print(cnt)
   print("Faliure : Sideways Move or Local Maximum")

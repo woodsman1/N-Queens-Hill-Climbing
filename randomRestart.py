@@ -3,6 +3,10 @@ import utility
 
 
 def randomRestartHillClimbing(n, board):
+  """
+  Implemeting RandomRestart
+  """
+
   h = utility.get_heuristic_cost(n, board)
   print("h(Initial) =", h)
   new_h = 0
@@ -10,15 +14,17 @@ def randomRestartHillClimbing(n, board):
   restart_cnt = 0
 
   while(cnt < 20):
-    flag, new_h, col, row = hillClimb.get_next_move(h, board, True)
+    ## True because we dont want to move sideways instead we want to Restart again.
+    flag, new_h, col, row = hillClimb.get_next_move(h, board, True)  
 
     if(flag == False):
-      # utility.print_board(board)
+      ## Random Restart by creating new random Board
       restart_cnt+=1
       board = utility.generate_board(n)
       new_h = utility.get_heuristic_cost(n, board)
-      # print("Faliure : Reached local maximum")
+
     elif new_h==0:
+      ## Goal State (heuristic value = 0)
       board[col] = row
       utility.print_board(board)
       print("h(final) =", new_h)
@@ -31,7 +37,7 @@ def randomRestartHillClimbing(n, board):
 
     h = new_h
 
-    ### printing board after every move
+    ## printing board after every move
     # print()
     # utility.print_board(board)
     # print("h =",new_h)
