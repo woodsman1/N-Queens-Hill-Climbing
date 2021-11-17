@@ -1,7 +1,7 @@
 import random
 import utility
 
-def get_next_move(h, board):
+def get_next_move(h, board, flag=False):
 
   next_moves_h = {}
   n = len(board)
@@ -29,7 +29,7 @@ def get_next_move(h, board):
 
 
   ####### without sideways move (strict condition)
-  # if(min_h == h): return False, h, -1, -1  
+  if flag and min_h == h: return False, h, -1, -1  
 
 
   # select any random moves from the list of min heuristic moves
@@ -43,6 +43,7 @@ def get_next_move(h, board):
 
 def hillClimbing(n , board):
   h = utility.get_heuristic_cost(n, board)
+  print("h(Initial) =", h)
   new_h = 0
   cnt = 0
 
