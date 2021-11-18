@@ -6,9 +6,9 @@ import time
 
 
 if __name__ == "__main__":
-  t_test = 40
+  t_test = 15
   t = t_test
-  n = 4
+  n = 16
 
   
 
