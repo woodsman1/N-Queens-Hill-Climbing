@@ -10,8 +10,6 @@ if __name__ == "__main__":
   t = t_test
   n = 16
 
-  
-
   t_time1 = 0
   t_time2 = 0
   t_time3 = 0
