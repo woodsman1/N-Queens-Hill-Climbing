@@ -51,38 +51,43 @@ def get_next_move(h, board, flag=False):
 
 
 
-def hillClimbing(n , board):
+def hillClimbing(n , board, test = False):
   """
   Implementation of hillClimbing algorithum
   """
   
   h = utility.get_heuristic_cost(n, board)
-  print("h(Initial) =", h)
+  
+  if not test:
+    print("h(Initial) =", h)
+  
   new_h = 0
   cnt = 0
 
 
   ## loop till the limit or till the goal state is achieved
-  while(cnt < 40):
+  while(cnt < 1000):
     ## get optimal next moves 
     flag, new_h, col, row = get_next_move(h, board)
 
 
     if(flag == False):    ## No optimal moves obtained
-      print("\nFinal = ")
-      utility.print_board(board)
-      print("h(final) =", h)
-      print("number of moves = ", cnt)
-      print("Faliure : Reached local maximum")
-      return board, h
+      if not test:
+        print("\nFinal = ")
+        utility.print_board(board)
+        print("h(final) =", h)
+        print("number of moves = ", cnt)
+        print("Faliure : Reached local maximum")
+      return False, cnt, board, h
     elif new_h==0:       ## Reached the goal state
       board[col] = row
-      print("\nFinal = ")
-      utility.print_board(board)
-      print("h(final) =", new_h)
-      print("number of moves = ", cnt)
-      print("Success : Reached Goal Sate")
-      return board, h
+      if not test:
+        print("\nFinal = ")
+        utility.print_board(board)
+        print("h(final) =", new_h)
+        print("number of moves = ", cnt)
+        print("Success : Reached Goal Sate")
+      return True, cnt, board, h
     else:               ## Optimal move in obtained
       board[col] = row
 
@@ -98,12 +103,13 @@ def hillClimbing(n , board):
     cnt+=1
   
   ## reached the limit of moves but goal state no achieved
-  print("\nFinal = ")
-  utility.print_board(board)
-  print(cnt)
-  print("Faliure : Sideways Move or Local Maximum")
+  if not test:
+    print("\nFinal = ")
+    utility.print_board(board)
+    print(cnt)
+    print("Faliure : Sideways Move or Local Maximum")
 
-  return board, new_h
+  return False, cnt, board, new_h
 
 
 
@@ -119,7 +125,7 @@ if __name__ == "__main__":
   utility.print_board(board)
 
   # print("\nFinal")
-  board, h = hillClimbing(n, board)
+  _ , cnt, board, h = hillClimbing(n, board)
 
 
   end = time.time()

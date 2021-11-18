@@ -2,18 +2,21 @@ import hillClimb
 import utility
 import time
 
-def randomRestartHillClimbing(n, board):
+def randomRestartHillClimbing(n, board, test=False):
   """
   Implemeting RandomRestart
   """
 
   h = utility.get_heuristic_cost(n, board)
-  print("h(Initial) =", h)
+
+  if not test:
+    print("h(Initial) =", h)
+  
   new_h = 0
   cnt = 0
   restart_cnt = 0
 
-  while(cnt < 40):
+  while(cnt < 1000):
     ## True because we dont want to move sideways instead we want to Restart again.
     flag, new_h, col, row = hillClimb.get_next_move(h, board, True)  
 
@@ -26,13 +29,14 @@ def randomRestartHillClimbing(n, board):
     elif new_h==0:
       ## Goal State (heuristic value = 0)
       board[col] = row
-      print("\nFinal = ")
-      utility.print_board(board)
-      print("h(final) =", new_h)
-      print("number of restart = ", restart_cnt)
-      print("number of steps = ", cnt)
-      print("Success : Reached Goal Sate")
-      return board, h
+      if not test:
+        print("\nFinal = ")
+        utility.print_board(board)
+        print("h(final) =", new_h)
+        print("number of restart = ", restart_cnt)
+        print("number of steps = ", cnt)
+        print("Success : Reached Goal Sate")
+      return True, cnt, board, h
     else:
       board[col] = row
 
@@ -46,15 +50,16 @@ def randomRestartHillClimbing(n, board):
 
     cnt+=1
   
-  print("\nFinal = ")
-  utility.print_board(board)
-  new_h = utility.get_heuristic_cost(n, board)
-  print("h(final) =", new_h)
+  if not test:
+    print("\nFinal = ")
+    utility.print_board(board)
+    new_h = utility.get_heuristic_cost(n, board)
+    print("h(final) =", new_h)
 
-  print("number of steps = ", cnt)
-  print("Faliure : Moves Limit Exceeded")
+    print("number of steps = ", cnt)
+    print("Faliure : Moves Limit Exceeded")
 
-  return board, new_h
+  return False, cnt,  board, new_h
 
 
 
@@ -68,7 +73,7 @@ if __name__ == "__main__":
   print("Initial = ", )
   utility.print_board(board)
 
-  board, h = randomRestartHillClimbing(n, board)
+  _, steps, board, h = randomRestartHillClimbing(n, board)
 
 
   end = time.time()

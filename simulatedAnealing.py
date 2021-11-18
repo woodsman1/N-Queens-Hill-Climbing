@@ -57,10 +57,13 @@ def annealing(n, board):
     # utility.print_board(board)
 
     steps+=1
-    if steps >= 10000:
+    if steps >= 1000:
       break
-  
-  return steps, board
+
+  if h==0:
+    return True, steps, board
+
+  return False, steps, board
 
 
 
@@ -76,7 +79,7 @@ if __name__ == "__main__":
   utility.print_board(board)
 
   print("\nFinal = ")
-  steps, board = annealing(n, board)
+  _, steps, board = annealing(n, board)
   
   
   utility.print_board(board)
