@@ -1,6 +1,7 @@
 import math
 import random
 import utility
+import time
 
 
 def make_annealing_move(n, board, h, temprature):
@@ -64,6 +65,10 @@ def annealing(n, board):
 
 
 if __name__ == "__main__":
+
+  begin = time.time()
+  time.sleep(0.3)
+
   n = 8
   board = utility.generate_board(n)
 
@@ -84,3 +89,9 @@ if __name__ == "__main__":
     print("Faliure : Moves Limit Exceeded")
   else:
     print("Success : Reached Goal Sate")
+
+  end = time.time()
+
+  print(f"Total runtime = {(end-begin-0.3)*1000} ms")
+
+  print()

@@ -1,5 +1,6 @@
 import random
 import utility
+import time
 
 def get_next_move(h, board, flag=False):
   """
@@ -60,13 +61,15 @@ def hillClimbing(n , board):
   new_h = 0
   cnt = 0
 
+
   ## loop till the limit or till the goal state is achieved
-  while(cnt < 20):
+  while(cnt < 40):
     ## get optimal next moves 
     flag, new_h, col, row = get_next_move(h, board)
 
 
     if(flag == False):    ## No optimal moves obtained
+      print("\nFinal = ")
       utility.print_board(board)
       print("h(final) =", h)
       print("number of moves = ", cnt)
@@ -74,6 +77,7 @@ def hillClimbing(n , board):
       return board, h
     elif new_h==0:       ## Reached the goal state
       board[col] = row
+      print("\nFinal = ")
       utility.print_board(board)
       print("h(final) =", new_h)
       print("number of moves = ", cnt)
@@ -94,6 +98,7 @@ def hillClimbing(n , board):
     cnt+=1
   
   ## reached the limit of moves but goal state no achieved
+  print("\nFinal = ")
   utility.print_board(board)
   print(cnt)
   print("Faliure : Sideways Move or Local Maximum")
@@ -103,12 +108,23 @@ def hillClimbing(n , board):
 
 
 if __name__ == "__main__":
+
+  begin = time.time()
+  time.sleep(0.3)
+
   n = 8
   board = utility.generate_board(n)
 
   print("Initial = ", )
   utility.print_board(board)
 
-  print("\nFinal")
+  # print("\nFinal")
   board, h = hillClimbing(n, board)
+
+
+  end = time.time()
+
+  print(f"Total runtime = {(end-begin-0.3)*1000} ms")
+
+  print()
   
